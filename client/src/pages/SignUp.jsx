@@ -1,18 +1,39 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const SignUp = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(null);
+  const [error, setError] = useState(null);
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await fetch("/api/auth/signup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
+    setLoading(true);
+    try {
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      if (data.success === false) {
+        setError(data);
+        setSuccess(null);
+        return;
+      }
+      setSuccess(data.message);
+      navigate("/signin");
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <div className="p-3  mx-auto">
@@ -50,8 +71,10 @@ const SignUp = () => {
           />
 
           <button className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80">
-            Sign Up
+            {loading ? "loading..." : "Sign Up"}
           </button>
+          <p className="text-green-600">{success && success}</p>
+          <p className="text-red-600">{error && error.message}</p>
         </form>
       </div>
 

@@ -1,24 +1,40 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const SignIn = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
-    const res = await fetch("/api/auth/signin", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
-    const data = await res.json();
-    console.log(data);
+    try {
+      const res = await fetch("/api/auth/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      if (data.success === false) {
+        setError(data);
+        console.log(data);
+        return;
+      }
+      setError(null);
+      navigate("/");
+    } catch (err) {
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
   };
-  console.log(formData);
   return (
     <div className="p-3  mx-auto">
       <h1 className="text-3xl text-center font-semibold my-7">Sign In</h1>
@@ -48,8 +64,9 @@ const SignIn = () => {
           />
 
           <button className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80">
-            Sign In
+            {loading ? "Loading..." : "Sign In"}
           </button>
+          <p className="text-red-600">{error && error?.message}</p>
         </form>
       </div>
 
