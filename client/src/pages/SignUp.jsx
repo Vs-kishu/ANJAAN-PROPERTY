@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import GoogleAuth from "../components/GoogleAuth";
 const SignUp = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({});
@@ -73,6 +74,7 @@ const SignUp = () => {
           <button className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80">
             {loading ? "loading..." : "Sign Up"}
           </button>
+          <GoogleAuth />
           <p className="text-green-600">{success && success}</p>
           <p className="text-red-600">{error && error.message}</p>
         </form>

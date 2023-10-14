@@ -1,18 +1,22 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import GoogleAuth from "../components/GoogleAuth";
+import { useDispatch, useSelector } from "react-redux";
+import { signInFailure, signInStart, signInSuccess } from "../store/userSlice";
 const SignIn = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector((store) => store.user);
   const [formData, setFormData] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
-    setLoading(true);
     e.preventDefault();
     try {
+      dispatch(signInStart());
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {
@@ -23,16 +27,13 @@ const SignIn = () => {
 
       const data = await res.json();
       if (data.success === false) {
-        setError(data);
-        console.log(data);
+        dispatch(signInFailure(data.message));
         return;
       }
-      setError(null);
+      dispatch(signInSuccess(data));
       navigate("/");
     } catch (err) {
-      setError(err);
-    } finally {
-      setLoading(false);
+      dispatch(signInFailure(error.message));
     }
   };
   return (
@@ -66,6 +67,7 @@ const SignIn = () => {
           <button className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80">
             {loading ? "Loading..." : "Sign In"}
           </button>
+          <GoogleAuth />
           <p className="text-red-600">{error && error?.message}</p>
         </form>
       </div>
