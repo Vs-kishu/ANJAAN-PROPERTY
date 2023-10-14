@@ -1,6 +1,8 @@
+import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
 import authRouter from "./routes/authRoute.js";
+dotenv.config();
 
 mongoose
   .connect("mongodb://127.0.0.1:27017/anjaan-property")

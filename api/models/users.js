@@ -10,6 +10,10 @@ const userSchema = new Schema(
     },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    photoURL: {
+      type: String,
+      default: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+    },
   },
   { timestamps: true }
 );

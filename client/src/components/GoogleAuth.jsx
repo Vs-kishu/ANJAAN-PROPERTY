@@ -7,11 +7,12 @@ import { useNavigate } from "react-router-dom";
 const GoogleAuth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleClick = async () => {
+  const handleGoogleClick = async () => {
     try {
       const provider = new GoogleAuthProvider();
       const auth = getAuth(app);
       const result = await signInWithPopup(auth, provider);
+      console.log(result);
 
       const {
         user: { displayName, email, photoURL },
@@ -38,7 +39,7 @@ const GoogleAuth = () => {
   return (
     <button
       type="buttton"
-      onClick={handleClick}
+      onClick={handleGoogleClick}
       className="bg-red-950 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
     >
       GO with Google
