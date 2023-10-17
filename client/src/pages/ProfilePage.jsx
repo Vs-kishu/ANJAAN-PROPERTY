@@ -130,8 +130,11 @@ const ProfilePage = () => {
     }
   };
   return (
-    <section className=" w-[900px]  mx-auto mt-10 bg-slate-300 p-4 rounded-lg shadow-lg shadow-black">
-      <form onSubmit={upadteUserInfo} className="flex items-center ">
+    <section className="w-full lg:w-[900px]  mx-auto mt-10 bg-slate-300 p-4 rounded-lg shadow-lg shadow-black">
+      <form
+        onSubmit={upadteUserInfo}
+        className="flex flex-col sm:flex-row items-center "
+      >
         <div className="flex flex-shrink-0 flex-col gap-10 items-center">
           <div className="w-52 h-52 rounded-full ">
             <input
