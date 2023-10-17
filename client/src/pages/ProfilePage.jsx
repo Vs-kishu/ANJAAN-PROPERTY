@@ -6,9 +6,13 @@ import {
 } from "firebase/storage";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { app } from "../../firebase";
 import {
+  deleteFailure,
+  deleteUserFinished,
+  deleteUserStarted,
   updateFail,
   updateUserFinished,
   updateUserStarted,
@@ -16,6 +20,7 @@ import {
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const imgRef = useRef();
   const { currentUser, loading, error } = useSelector((store) => store.user);
   const { userName, photoURL, email, _id } = currentUser;
@@ -86,7 +91,25 @@ const ProfilePage = () => {
       dispatch(updateFail(error));
     }
   };
-  console.log({ currentUser, loading, error });
+
+  const deleteUser = async () => {
+    try {
+      dispatch(deleteUserStarted());
+      const data = await fetch(`/api/user/deleteUser/${_id}`, {
+        method: "DELETE",
+      });
+      const json = await data.json();
+      if (data.success === false) {
+        dispatch(deleteFailure(data.message));
+        return;
+      }
+      dispatch(deleteUserFinished());
+      toast.success(json);
+      navigate("/sigin");
+    } catch (error) {
+      dispatch(deleteFailure(error));
+    }
+  };
   return (
     <section className=" w-[700px]  flex items-center justify-between mt-24 gap-10 mx-auto">
       <form onSubmit={upadteUserInfo} className="flex justify-evenly">
@@ -162,7 +185,11 @@ const ProfilePage = () => {
             >
               {loading ? "Loading" : " Update"}
             </button>
-            <button className="bg-red-950 text-white px-8 py-2 rounded-lg hover:bg-red-700">
+            <button
+              type="button"
+              onClick={deleteUser}
+              className="bg-red-950 text-white px-8 py-2 rounded-lg hover:bg-red-700"
+            >
               Delete
             </button>
           </div>
