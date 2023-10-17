@@ -1,13 +1,28 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Home, SignIn, SignUp, About } from "./pages";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import Header from "./components/Header";
-import ProfilePage from "./pages/ProfilePage";
 import PrivateRoute from "./components/PrivateRoute";
+import { About, Home, SignIn, SignUp } from "./pages";
+import ProfilePage from "./pages/ProfilePage";
 
 const App = () => {
   return (
     <main>
       <BrowserRouter>
+        <ToastContainer
+          position="bottom-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
         <Header />
         <Routes>
           <Route path="/signin" element={<SignIn />} />
