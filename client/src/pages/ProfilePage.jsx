@@ -13,6 +13,10 @@ import {
   deleteFailure,
   deleteUserFinished,
   deleteUserStarted,
+  signInFailure,
+  signoutFail,
+  signoutFinished,
+  signoutstarted,
   updateFail,
   updateUserFinished,
   updateUserStarted,
@@ -22,7 +26,7 @@ const ProfilePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const imgRef = useRef();
-  const { currentUser, loading, error } = useSelector((store) => store.user);
+  const { currentUser, loading } = useSelector((store) => store.user);
   const { userName, photoURL, email, _id } = currentUser;
   const [file, setFile] = useState();
   const [filePerc, setFilePerc] = useState(0);
@@ -110,9 +114,24 @@ const ProfilePage = () => {
       dispatch(deleteFailure(error));
     }
   };
+
+  const signOutUser = async () => {
+    try {
+      dispatch(signoutstarted());
+      const data = await fetch(`/api/auth/signout`, {});
+      const json = await data.json();
+      if (data.success === false) {
+        dispatch(signInFailure(json.message));
+        return;
+      }
+      dispatch(signoutFinished());
+    } catch (error) {
+      dispatch(signoutFail(error));
+    }
+  };
   return (
-    <section className=" w-[700px]  flex items-center justify-between mt-24 gap-10 mx-auto">
-      <form onSubmit={upadteUserInfo} className="flex justify-evenly">
+    <section className=" w-[900px]  mx-auto mt-10 bg-slate-300 p-4 rounded-lg shadow-lg shadow-black">
+      <form onSubmit={upadteUserInfo} className="flex items-center ">
         <div className="flex flex-shrink-0 flex-col gap-10 items-center">
           <div className="w-52 h-52 rounded-full ">
             <input
@@ -145,6 +164,13 @@ const ProfilePage = () => {
             </p>
           </div>
           <h1 className="text-red-950 font-bold text-xl">{userName}</h1>
+          <button
+            type="button"
+            onClick={signOutUser}
+            className="bg-red-950 text-white px-8 py-2 rounded-lg hover:bg-red-700"
+          >
+            Sign Out
+          </button>
         </div>
         <div className="w-full">
           <label className="flex gap-5 flex-col text-red-950 font-bold p-4">
@@ -178,7 +204,7 @@ const ProfilePage = () => {
               onChange={onchange}
             />
           </label>
-          <div className="flex justify-between">
+          <div className="flex justify-between px-5">
             <button
               disabled={loading}
               className="bg-red-950 text-white px-8 py-2 rounded-lg hover:bg-red-700"
