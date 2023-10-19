@@ -5,11 +5,12 @@ import "react-toastify/dist/ReactToastify.css";
 import Header from "./components/Header";
 import PrivateRoute from "./components/PrivateRoute";
 import { About, Home, SignIn, SignUp } from "./pages";
+import AddProperty from "./pages/AddProperty";
 import ProfilePage from "./pages/ProfilePage";
 
 const App = () => {
   return (
-    <main>
+    <main className="bg-zinc-100">
       <BrowserRouter>
         <ToastContainer
           position="bottom-right"
@@ -35,6 +36,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
 
           <Route path="/about" element={<About />} />
+          <Route path="/property" element={<AddProperty />} />
         </Routes>
       </BrowserRouter>
     </main>
