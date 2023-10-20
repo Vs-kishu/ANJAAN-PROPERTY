@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import PropertyCard from "./PropertyCard";
 const Home = () => {
   // const [allProp, setAllProp] = useState([]);
   // const fetchAllProperty = async () => {
@@ -19,7 +20,7 @@ const Home = () => {
       <Link to={"/property"}>
         <button className="text-2xl animate-pulse font-medium text-center border w-full py-2 hover:bg-red-200 text-red-600">
           {" "}
-          ADD PROPERTY
+          BUY OR RENT PROPERTY
         </button>{" "}
       </Link>
       <h1 className="text-4xl font-medium text-center w-1/2 mx-auto my-9">
@@ -37,7 +38,9 @@ const Home = () => {
       </div>
       <section className="flex flex-col items-center my-10">
         <h3 className="text-red-800 text-6xl font-nosifer">hot Deals</h3>
-        <div></div>
+        <div>
+          <PropertyCard />
+        </div>
       </section>
     </main>
   );

@@ -25,7 +25,7 @@ const AddProperty = () => {
     bedrooms: 1,
     bathrooms: 1,
     regularPrice: 50,
-    discountPrice: 0,
+    discountPrice: 50,
     offer: false,
     parking: false,
     furnished: false,
@@ -134,7 +134,7 @@ const AddProperty = () => {
   };
 
   const onChange = (e) => {
-    if (e.target.id === "sale" || e.target.id === "rent") {
+    if (e.target.id === "sell" || e.target.id === "rent") {
       setFormData({
         ...formData,
         type: e.target.id,
@@ -185,6 +185,7 @@ const AddProperty = () => {
             minLength="10"
             required
             onChange={onChange}
+            value={formData.name}
           />
           <textarea
             type="text"
@@ -193,6 +194,7 @@ const AddProperty = () => {
             id="description"
             required
             onChange={onChange}
+            value={formData.description}
           />
           <input
             type="text"
@@ -201,14 +203,16 @@ const AddProperty = () => {
             id="address"
             required
             onChange={onChange}
+            value={formData.address}
           />
           <div className="flex gap-6 flex-wrap ">
             <div className="flex gap-2">
               <input
                 type="checkbox"
-                id="sale"
+                id="sell"
                 onChange={onChange}
                 className="w-5"
+                checked={formData.type == "sell"}
               />
               <span>Sell</span>
             </div>
@@ -218,6 +222,7 @@ const AddProperty = () => {
                 id="rent"
                 onChange={onChange}
                 className="w-5"
+                checked={formData.type == "rent"}
               />
               <span>Rent</span>
             </div>
@@ -227,6 +232,7 @@ const AddProperty = () => {
                 id="parking"
                 onChange={onChange}
                 className="w-5"
+                checked={formData.parking}
               />
               <span>Parking spot</span>
             </div>
@@ -236,6 +242,7 @@ const AddProperty = () => {
                 id="furnished"
                 onChange={onChange}
                 className="w-5"
+                checked={formData.furnished}
               />
               <span>Furnished</span>
             </div>
@@ -245,6 +252,7 @@ const AddProperty = () => {
                 id="offer"
                 onChange={onChange}
                 className="w-5"
+                checked={formData.offer}
               />
               <span>Offer</span>
             </div>
@@ -259,6 +267,7 @@ const AddProperty = () => {
                 required
                 className="p-3 border border-gray-300 rounded-lg"
                 onChange={onChange}
+                value={formData.bedrooms}
               />
               <p>Beds</p>
             </div>
@@ -266,11 +275,12 @@ const AddProperty = () => {
               <input
                 type="number"
                 id="bathrooms"
-                min="1"
-                max="10"
+                min="50"
+                max="1000000"
                 required
                 className="p-3 border border-gray-300 rounded-lg"
                 onChange={onChange}
+                value={formData.bathrooms}
               />
               <p>Baths</p>
             </div>
@@ -283,28 +293,35 @@ const AddProperty = () => {
                 required
                 className="p-3 border border-gray-300 rounded-lg"
                 onChange={onChange}
+                value={formData.regularPrice}
               />
               <div className="flex flex-col items-center">
                 <p>Regular price</p>
-                <span className="text-xs">($ / month)</span>
+                {formData.type == "rent" && (
+                  <span className="text-xs">($ / month)</span>
+                )}
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <input
-                type="number"
-                id="discountPrice"
-                min="0"
-                max="10000000"
-                required
-                className="p-3 border border-gray-300 rounded-lg"
-                onChange={onChange}
-              />
-              <div className="flex flex-col items-center">
-                <p>Discounted price</p>
-
-                <span className="text-xs">($ / month)</span>
+            {formData.offer && (
+              <div className="flex items-center gap-2">
+                <input
+                  type="number"
+                  id="discountPrice"
+                  min="0"
+                  max="1000000"
+                  required
+                  className="p-3 border border-gray-300 rounded-lg"
+                  onChange={onChange}
+                  value={formData.discountPrice}
+                />
+                <div className="flex flex-col items-center">
+                  <p>Discounted price</p>
+                  {formData.type == "rent" && (
+                    <span className="text-xs">($ / month)</span>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
         <div className="flex flex-col flex-1 gap-4">
@@ -328,9 +345,11 @@ const AddProperty = () => {
           <button
             type="button"
             onClick={uploadImages}
-            className="p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
+            className={` ${
+              loading && "animate-pulse"
+            } p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80`}
           >
-            {loading ? "loading..." : "ADD PROPERTY"}
+            {loading ? "Adding..." : "ADD PROPERTY"}
           </button>
           <div className="space-y-4">
             {localblobURLs?.map((url, index) => (

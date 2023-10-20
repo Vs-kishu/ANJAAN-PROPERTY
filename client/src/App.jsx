@@ -10,7 +10,7 @@ import ProfilePage from "./pages/ProfilePage";
 
 const App = () => {
   return (
-    <main className="bg-zinc-100">
+    <main className="bg-stone-50 h-screen">
       <BrowserRouter>
         <ToastContainer
           position="bottom-right"
