@@ -7,6 +7,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import { About, Home, SignIn, SignUp } from "./pages";
 import AddProperty from "./pages/AddProperty";
 import ProfilePage from "./pages/ProfilePage";
+import UpdateProperty from "./pages/UpdateProperty";
 
 const App = () => {
   return (
@@ -37,6 +38,7 @@ const App = () => {
 
           <Route path="/about" element={<About />} />
           <Route path="/property" element={<AddProperty />} />
+          <Route path="/editProperty/:propID" element={<UpdateProperty />} />
         </Routes>
       </BrowserRouter>
     </main>

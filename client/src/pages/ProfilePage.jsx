@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { app } from "../../firebase";
+import UserProperties from "../components/UserProperties";
 import {
   deleteFailure,
   deleteUserFinished,
@@ -130,103 +131,106 @@ const ProfilePage = () => {
     }
   };
   return (
-    <section className="w-full lg:w-[900px]  mx-auto mt-10 bg-slate-300 p-4 rounded-lg shadow-lg shadow-black">
-      <form
-        onSubmit={upadteUserInfo}
-        className="flex flex-col sm:flex-row items-center "
-      >
-        <div className="flex flex-shrink-0 flex-col gap-10 items-center">
-          <div className="w-52 h-52 rounded-full ">
-            <input
-              type="file"
-              ref={imgRef}
-              className="hidden"
-              onChange={(e) => setFile(e.target.files[0])}
-              accept="image/*"
-            />
-            <img
-              onClick={() => imgRef.current.click()}
-              className="w-full h-full object-cover rounded-full"
-              src={formData.photoURL || photoURL}
-              alt="PROFILE PIC"
-            />
-            <p className="text-sm self-center">
-              {fileUploadError ? (
-                <span className="text-red-700">
-                  Error Image upload (image must be less than 2 mb)
-                </span>
-              ) : filePerc > 0 && filePerc < 100 ? (
-                <span className="text-slate-700">{`Uploading ${filePerc}%`}</span>
-              ) : filePerc === 100 ? (
-                <span className="text-green-700">
-                  Image successfully uploaded!
-                </span>
-              ) : (
-                ""
-              )}
-            </p>
-          </div>
-          <h1 className="text-red-950 font-bold text-xl">{userName}</h1>
-          <button
-            type="button"
-            onClick={signOutUser}
-            className="bg-red-950 text-white px-8 py-2 rounded-lg hover:bg-red-700"
-          >
-            Sign Out
-          </button>
-        </div>
-        <div className="w-full">
-          <label className="flex gap-5 flex-col text-red-950 font-bold p-4">
-            User Name
-            <input
-              type="text"
-              className="border-2 p-2 border-red-950 rounded-lg"
-              name="userName"
-              onChange={onchange}
-              defaultValue={userName}
-            />
-          </label>
-
-          <label className="flex gap-5 flex-col text-red-950 font-bold p-4">
-            Email Address
-            <input
-              type="text"
-              className="border-2 p-2 border-red-950 rounded-lg"
-              name="email"
-              onChange={onchange}
-              defaultValue={email}
-            />
-          </label>
-
-          <label className="flex gap-5 flex-col text-red-950 font-bold p-4">
-            Password
-            <input
-              type="password"
-              name="password"
-              className="border-2 p-2 border-red-950 rounded-lg"
-              onChange={onchange}
-            />
-          </label>
-          <div className="flex justify-between px-5">
-            <button
-              disabled={loading}
-              className="bg-red-950 text-white px-8 py-2 rounded-lg hover:bg-red-700"
-            >
-              {loading ? "Loading" : " Update"}
-            </button>
+    <main>
+      <section className="w-full lg:w-[900px]  mx-auto mt-10 bg-slate-300 p-4 rounded-lg shadow-inner shadow-black">
+        <form
+          onSubmit={upadteUserInfo}
+          className="flex flex-col sm:flex-row items-center "
+        >
+          <div className="flex flex-shrink-0 flex-col gap-10 items-center">
+            <div className="w-52 h-52 rounded-full ">
+              <input
+                type="file"
+                ref={imgRef}
+                className="hidden"
+                onChange={(e) => setFile(e.target.files[0])}
+                accept="image/*"
+              />
+              <img
+                onClick={() => imgRef.current.click()}
+                className="w-full h-full object-cover rounded-full"
+                src={formData.photoURL || photoURL}
+                alt="PROFILE PIC"
+              />
+              <p className="text-sm self-center">
+                {fileUploadError ? (
+                  <span className="text-red-700">
+                    Error Image upload (image must be less than 2 mb)
+                  </span>
+                ) : filePerc > 0 && filePerc < 100 ? (
+                  <span className="text-slate-700">{`Uploading ${filePerc}%`}</span>
+                ) : filePerc === 100 ? (
+                  <span className="text-green-700">
+                    Image successfully uploaded!
+                  </span>
+                ) : (
+                  ""
+                )}
+              </p>
+            </div>
+            <h1 className="text-red-950 font-bold text-xl">{userName}</h1>
             <button
               type="button"
-              onClick={deleteUser}
+              onClick={signOutUser}
               className="bg-red-950 text-white px-8 py-2 rounded-lg hover:bg-red-700"
             >
-              Delete
+              Sign Out
             </button>
           </div>
-          <p></p>
-          <p>{successUpdate && "successfully Update"}</p>
-        </div>
-      </form>
-    </section>
+          <div className="w-full">
+            <label className="flex gap-5 flex-col text-red-950 font-bold p-4">
+              User Name
+              <input
+                type="text"
+                className="border-2 p-2 border-red-950 rounded-lg"
+                name="userName"
+                onChange={onchange}
+                defaultValue={userName}
+              />
+            </label>
+
+            <label className="flex gap-5 flex-col text-red-950 font-bold p-4">
+              Email Address
+              <input
+                type="text"
+                className="border-2 p-2 border-red-950 rounded-lg"
+                name="email"
+                onChange={onchange}
+                defaultValue={email}
+              />
+            </label>
+
+            <label className="flex gap-5 flex-col text-red-950 font-bold p-4">
+              Password
+              <input
+                type="password"
+                name="password"
+                className="border-2 p-2 border-red-950 rounded-lg"
+                onChange={onchange}
+              />
+            </label>
+            <div className="flex justify-between px-5">
+              <button
+                disabled={loading}
+                className="bg-green-600 text-white px-8 py-2 rounded-lg hover:bg-green-700"
+              >
+                {loading ? "Loading" : " Update"}
+              </button>
+              <button
+                type="button"
+                onClick={deleteUser}
+                className="bg-red-600 text-white px-8 py-2 rounded-lg hover:bg-red-700"
+              >
+                Delete
+              </button>
+            </div>
+            <p></p>
+            <p>{successUpdate && "successfully Update"}</p>
+          </div>
+        </form>
+      </section>
+      <UserProperties />
+    </main>
   );
 };
 

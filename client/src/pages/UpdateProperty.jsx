@@ -4,16 +4,18 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { app } from "../../firebase";
 import { convertBlobURLsToFiles } from "../utils/helperFunction";
 
-const AddProperty = () => {
+const UpdateProperty = () => {
+  const { propID } = useParams();
   const { currentUser } = useSelector((store) => store.user);
   const navigate = useNavigate();
+  const [propError, setPropError] = useState(null);
   const [localblobURLs, setLocalBlobURLs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -31,6 +33,25 @@ const AddProperty = () => {
     furnished: false,
   });
 
+  useEffect(() => {
+    fetchProp();
+  }, []);
+
+  const fetchProp = async () => {
+    console.log(propID);
+    try {
+      const res = await fetch(`/api/property/getProp/${propID}`);
+      const data = await res.json();
+
+      if (data.success === false) {
+        setPropError(data.message);
+        return;
+      }
+      setFormData(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleImages = (e) => {
     if (e.target.files.length > 5) {
       toast.error("select max 5 Images");
@@ -38,10 +59,10 @@ const AddProperty = () => {
     }
 
     if (e.target.files.length > 0) {
-      const localblobURLs = Array.from(e.target.files).map((file) =>
+      const localblobURL = Array.from(e.target.files).map((file) =>
         URL.createObjectURL(file)
       );
-      setLocalBlobURLs(localblobURLs);
+      setLocalBlobURLs([...localblobURLs, ...localblobURL]);
     }
   };
 
@@ -50,10 +71,6 @@ const AddProperty = () => {
     e.preventDefault();
     try {
       const files = await convertBlobURLsToFiles(localblobURLs);
-      if (files.length === 0) {
-        toast.error("Choose at least 1 Image");
-        return;
-      }
 
       const promises = [];
 
@@ -100,7 +117,7 @@ const AddProperty = () => {
       // Now that image URLs are updated, send the data to the backend
       try {
         console.log("uploading");
-        const res = await fetch("/api/property/addProp", {
+        const res = await fetch(`/api/property/editProp/${propID}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -117,6 +134,7 @@ const AddProperty = () => {
           return;
         }
         setLoading(false);
+        navigate("/");
 
         // handle success, e.g., navigate or show a success message
       } catch (error) {
@@ -167,11 +185,14 @@ const AddProperty = () => {
     updateLocalBlobUrls.splice(index, 1);
     setLocalBlobURLs(updateLocalBlobUrls);
   };
-
+  if (propError) {
+    console.log(propError);
+    return <h1 className="text-4xl">{propError}</h1>;
+  }
   return (
     <main className="p-3 max-w-4xl mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">
-        Add a Property
+        Update a Property
       </h1>
       <form className="flex flex-col sm:flex-row gap-4">
         <div className="flex flex-col gap-4 flex-1">
@@ -348,10 +369,24 @@ const AddProperty = () => {
               loading && "animate-pulse"
             } p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80`}
           >
-            {loading ? "Adding..." : "ADD PROPERTY"}
+            {loading ? "Updating..." : "Update PROPERTY"}
           </button>
           <div className="space-y-4">
-            {localblobURLs?.map((url, index) => (
+            {formData?.imageUrls.map((url, index) => (
+              <div
+                key={index}
+                className="flex justify-between items-center bg-slate-50 p-4 rounded-md "
+              >
+                <img
+                  className="w-32 h-28 object-cover"
+                  src={url}
+                  alt="property"
+                />
+              </div>
+            ))}
+          </div>
+          <div className="space-y-4">
+            {localblobURLs.map((url, index) => (
               <div
                 key={index}
                 className="flex justify-between items-center bg-slate-50 p-4 rounded-md "
@@ -376,4 +411,4 @@ const AddProperty = () => {
   );
 };
 
-export default AddProperty;
+export default UpdateProperty;

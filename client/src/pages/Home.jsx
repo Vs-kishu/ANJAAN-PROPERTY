@@ -29,7 +29,7 @@ const Home = () => {
       <div className="w-full h-[70vh] relative">
         <img
           className="w-full h-full object-cover"
-          src="https://firebasestorage.googleapis.com/v0/b/anjaan-property-38af0.appspot.com/o/1323363915.jpg?alt=media&token=af5ad24a-3615-4ba4-baa3-b202fcbe7568&_gl=1*1i8br9s*_ga*MTI2OTU3MDYyLjE2OTcxOTc3NDE.*_ga_CW55HF8NVT*MTY5NzY4MTYwNy4xNy4xLjE2OTc2ODE2ODMuNDcuMC4w"
+          src="https://res.cloudinary.com/dngrtoqfe/image/upload/v1697806075/anjaan-property/y43kbwkbspfb3nsyp87r.jpg"
           alt="cover"
         />
         <h2 className="absolute top-0 font-pacifico leading-loose py-20 px-40 left-0 h-full bg-black w-full bg-opacity-50  text-white font-bold text-6xl">
