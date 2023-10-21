@@ -8,6 +8,7 @@ import { About, Home, SignIn, SignUp } from "./pages";
 import AddProperty from "./pages/AddProperty";
 import ProfilePage from "./pages/ProfilePage";
 import PropertyDetails from "./pages/PropertyDetails";
+import Search from "./pages/Search";
 import UpdateProperty from "./pages/UpdateProperty";
 
 const App = () => {
@@ -39,6 +40,7 @@ const App = () => {
 
           <Route path="/about" element={<About />} />
           <Route path="/property" element={<AddProperty />} />
+          <Route path="/search" element={<Search />} />
           <Route
             path="/propertydetails/:propID"
             element={<PropertyDetails />}
