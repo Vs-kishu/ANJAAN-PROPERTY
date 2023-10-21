@@ -72,7 +72,9 @@ const UserProperties = () => {
                 src={imageUrls[0]}
                 alt="property"
               />
-              <h4 className="text-xl font-bold">{name}</h4>
+              <Link to={`/propertydetails/${_id}`}>
+                <h4 className="text-xl font-bold">{name}</h4>
+              </Link>
               <div className="flex flex-col items-center font-semibold">
                 <Link to={`/editProperty/${_id}`}>
                   <span className="text-green-600 cursor-pointer hover:scale-110">

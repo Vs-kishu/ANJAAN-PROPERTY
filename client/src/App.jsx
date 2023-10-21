@@ -7,11 +7,12 @@ import PrivateRoute from "./components/PrivateRoute";
 import { About, Home, SignIn, SignUp } from "./pages";
 import AddProperty from "./pages/AddProperty";
 import ProfilePage from "./pages/ProfilePage";
+import PropertyDetails from "./pages/PropertyDetails";
 import UpdateProperty from "./pages/UpdateProperty";
 
 const App = () => {
   return (
-    <main className="bg-stone-50 h-screen">
+    <main className="bg-stone-50 h-full">
       <BrowserRouter>
         <ToastContainer
           position="bottom-right"
@@ -38,6 +39,10 @@ const App = () => {
 
           <Route path="/about" element={<About />} />
           <Route path="/property" element={<AddProperty />} />
+          <Route
+            path="/propertydetails/:propID"
+            element={<PropertyDetails />}
+          />
           <Route path="/editProperty/:propID" element={<UpdateProperty />} />
         </Routes>
       </BrowserRouter>

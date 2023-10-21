@@ -71,11 +71,17 @@ export const editProperty = async (req, res, next) => {
   try {
     const newImageUrls = req.body.imageUrls;
 
+    const otherFieldUpdates = { ...req.body };
+    delete otherFieldUpdates.imageUrls;
+
     const updateprop = await Property.findByIdAndUpdate(
       { _id: req.params.id },
-      { $push: { imageUrls: { $each: newImageUrls } } },
+      otherFieldUpdates,
       { new: true }
     );
+    updateprop.imageUrls.push(...newImageUrls);
+
+    await updateprop.save();
 
     res.status(200).json(updateprop);
   } catch (error) {

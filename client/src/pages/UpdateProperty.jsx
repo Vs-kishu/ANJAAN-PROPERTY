@@ -134,7 +134,7 @@ const UpdateProperty = () => {
           return;
         }
         setLoading(false);
-        navigate("/");
+        navigate(`/propertydetails/${data._id}`);
 
         // handle success, e.g., navigate or show a success message
       } catch (error) {

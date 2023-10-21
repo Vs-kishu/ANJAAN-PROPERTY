@@ -117,7 +117,7 @@ const AddProperty = () => {
           return;
         }
         setLoading(false);
-
+        navigate(`/propertydetails/${data._id}`);
         // handle success, e.g., navigate or show a success message
       } catch (error) {
         console.log(error);
