@@ -16,6 +16,7 @@ export default function Search() {
 
   const [loading, setLoading] = useState(false);
   const [properties, setProperties] = useState([]);
+  const [showMore, setShowMore] = useState(false);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -52,12 +53,31 @@ export default function Search() {
       const searchQuery = urlParams.toString();
       const res = await fetch(`/api/property/get?${searchQuery}`);
       const data = await res.json();
+      if (data.length > 8) {
+        setShowMore(true);
+      } else {
+        setShowMore(false);
+      }
       setProperties(data);
       setLoading(false);
     };
 
     fetchproperties();
   }, [location.search]);
+
+  const onShowMoreClick = async () => {
+    const numberOfListings = properties.length;
+    const startIndex = numberOfListings;
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set("startIndex", startIndex);
+    const searchQuery = urlParams.toString();
+    const res = await fetch(`/api/property/get?${searchQuery}`);
+    const data = await res.json();
+    if (data.length < 9) {
+      setShowMore(false);
+    }
+    setProperties([...properties, ...data]);
+  };
 
   const handleChange = (e) => {
     if (
@@ -228,6 +248,14 @@ export default function Search() {
             properties.map((prop) => (
               <PropertyCard key={prop._id} prop={prop} />
             ))}
+          {showMore && (
+            <button
+              onClick={onShowMoreClick}
+              className="text-green-700 hover:underline p-7 text-center w-full"
+            >
+              Show more
+            </button>
+          )}
         </div>
       </div>
     </div>
