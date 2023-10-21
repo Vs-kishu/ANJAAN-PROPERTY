@@ -131,8 +131,8 @@ const ProfilePage = () => {
     }
   };
   return (
-    <main>
-      <section className="w-full lg:w-[900px]  mx-auto mt-10 bg-slate-300 p-4 rounded-lg shadow-inner shadow-black">
+    <main className="bg-white py-10">
+      <section className="w-full lg:w-[900px]  mx-auto  bg-white p-4 rounded-lg shadow-inner shadow-black">
         <form
           onSubmit={upadteUserInfo}
           className="flex flex-col sm:flex-row items-center "

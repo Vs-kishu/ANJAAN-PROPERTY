@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import GoogleAuth from "../components/GoogleAuth";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import GoogleAuth from "../components/GoogleAuth";
 import { signInFailure, signInStart, signInSuccess } from "../store/userSlice";
 const SignIn = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loading, error } = useSelector((store) => store.user);
+  const [testLoading, setTestLoading] = useState(false);
   const [formData, setFormData] = useState({});
 
   const handleChange = (e) => {
@@ -31,15 +33,42 @@ const SignIn = () => {
         return;
       }
       dispatch(signInSuccess(data));
-      navigate("/");
+      navigate("/profile");
     } catch (err) {
       dispatch(signInFailure(error));
     } finally {
       dispatch(signInFailure(error));
     }
   };
+  const testUserLogin = async () => {
+    try {
+      setTestLoading(true);
+      const res = await fetch("/api/auth/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: "guest@gmail.com",
+          password: "guest",
+        }),
+      });
+
+      const data = await res.json();
+      if (data.success === false) {
+        toast.error("error in login");
+        return;
+      }
+      dispatch(signInSuccess(data));
+      navigate("/profile");
+    } catch (err) {
+      dispatch(signInFailure(error));
+    } finally {
+      setTestLoading(false);
+    }
+  };
   return (
-    <div className="p-3  mx-auto">
+    <div className="p-3  mx-auto h-screen bg-white">
       <h1 className="text-3xl text-center font-semibold my-7">Sign In</h1>
 
       <div className="flex flex-col md:flex-row justify-center">
@@ -68,6 +97,13 @@ const SignIn = () => {
 
           <button className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80">
             {loading ? "Loading..." : "Sign In"}
+          </button>
+          <button
+            type="button"
+            onClick={testUserLogin}
+            className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
+          >
+            {testLoading ? "Loading..." : "Test User"}
           </button>
           <GoogleAuth />
           <p className="text-red-600">{error && error?.message}</p>

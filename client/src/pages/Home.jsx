@@ -49,7 +49,7 @@ const Home = () => {
           src="https://res.cloudinary.com/dngrtoqfe/image/upload/v1697806075/anjaan-property/y43kbwkbspfb3nsyp87r.jpg"
           alt="cover"
         />
-        <h2 className="absolute top-0 font-pacifico leading-loose py-20 px-10 lg:px-40 left-0 h-full bg-black w-full bg-opacity-50  text-white font-bold text-4xl lg:text-6xl">
+        <h2 className="absolute top-0   py-20 px-10 lg:px-40 left-0 h-full bg-black w-full bg-opacity-50  text-white font-bold text-4xl lg:text-6xl">
           Unlock the Door to Opportunity: Buy and Sell Properties Today{" "}
         </h2>
       </div>

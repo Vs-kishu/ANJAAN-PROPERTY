@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const SignUp = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({});
@@ -36,10 +35,10 @@ const SignUp = () => {
     }
   };
   return (
-    <div className="p-3  mx-auto">
+    <div className="p-3  mx-auto h-screen bg-white">
       <h1 className="text-3xl text-center font-semibold my-7">Sign Up</h1>
 
-      <div className="flex flex-col md:flex-row justify-center">
+      <div className="flex flex-col gap-5 md:flex-row justify-center">
         <img
           src="https://res.cloudinary.com/dngrtoqfe/image/upload/v1697108390/anjaan-property/ji1m4jslssv9nx7b94zg.gif"
           alt="signup"
