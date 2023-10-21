@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import Header from "./components/Header";
 import PrivateRoute from "./components/PrivateRoute";
-import { About, Home, SignIn, SignUp } from "./pages";
+import { Home, SignIn, SignUp } from "./pages";
 import AddProperty from "./pages/AddProperty";
 import ProfilePage from "./pages/ProfilePage";
 import PropertyDetails from "./pages/PropertyDetails";
@@ -38,7 +38,6 @@ const App = () => {
 
           <Route path="/" element={<Home />} />
 
-          <Route path="/about" element={<About />} />
           <Route path="/property" element={<AddProperty />} />
           <Route path="/search" element={<Search />} />
           <Route

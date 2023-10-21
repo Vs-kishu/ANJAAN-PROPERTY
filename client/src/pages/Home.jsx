@@ -1,5 +1,33 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import PropertyCard from "../components/PropertyCard";
 const Home = () => {
+  const [offerProperties, setOfferProperties] = useState([]);
+  const [rentProperties, setRentProperties] = useState([]);
+  const [sellProperties, setSellProperties] = useState([]);
+  console.log(offerProperties);
+  console.log(rentProperties);
+  console.log(sellProperties);
+  useEffect(() => {
+    const fetchOfferProp = async () => {
+      const res = await fetch("/api/property/get?offer=true&limit=4");
+      const data = await res.json();
+      setOfferProperties(data);
+      fetchRentProp();
+    };
+    fetchOfferProp();
+    const fetchRentProp = async () => {
+      const res = await fetch("/api/property/get?type=rent&limit=4");
+      const data = await res.json();
+      setRentProperties(data);
+      fetchsellProp();
+    };
+    const fetchsellProp = async () => {
+      const res = await fetch("/api/property/get?type=sell&limit=4");
+      const data = await res.json();
+      setSellProperties(data);
+    };
+  }, []);
   return (
     <main>
       <Link to={"/property"}>
@@ -22,7 +50,48 @@ const Home = () => {
         </h2>
       </div>
       <section className="flex flex-col items-center my-10">
-        <h3 className="text-red-800 text-6xl font-nosifer">hot Deals</h3>
+        <h3 className="text-red-800 text-6xl my-4 font-nosifer">
+          hot Deals{" "}
+          <span className="text-xl text-blue-600 font-normal">
+            <Link to={"/search?offer=true"}>Show more </Link>
+          </span>
+        </h3>
+
+        <div className="flex flex-wrap justify-evenly gap-5">
+          {offerProperties.map((prop) => (
+            <PropertyCard key={prop._id} prop={prop} />
+          ))}
+        </div>
+      </section>
+      <hr className="h-1 bg-gray-400" />
+
+      <section className="flex flex-col items-center my-10">
+        <h3 className="text-red-800 text-6xl my-10 font-nosifer">
+          Rent Deals{" "}
+          <span className="text-xl text-blue-600 font-normal">
+            <Link to={"/search?type=rent"}>Show more </Link>
+          </span>
+        </h3>
+
+        <div className="flex flex-wrap justify-evenly gap-5">
+          {rentProperties.map((prop) => (
+            <PropertyCard key={prop._id} prop={prop} />
+          ))}
+        </div>
+      </section>
+      <section className="flex flex-col items-center my-10">
+        <h3 className="text-red-800 text-6xl my-10 font-nosifer">
+          Sell Deals{" "}
+          <span className="text-xl text-blue-600 font-normal">
+            <Link to={"/search?type=sell"}>Show more </Link>
+          </span>
+        </h3>
+
+        <div className="flex flex-wrap justify-evenly gap-5">
+          {sellProperties.map((prop) => (
+            <PropertyCard key={prop._id} prop={prop} />
+          ))}
+        </div>
       </section>
     </main>
   );
