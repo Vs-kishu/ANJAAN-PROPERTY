@@ -1,20 +1,5 @@
 import { Link } from "react-router-dom";
-import PropertyCard from "./PropertyCard";
 const Home = () => {
-  // const [allProp, setAllProp] = useState([]);
-  // const fetchAllProperty = async () => {
-  //   try {
-  //     const res = await fetch("/api/property/allProp");
-  //     const data = await res.json();
-  //     setAllProp(data);
-  //   } catch (error) {
-  //     console.log("error occured");
-  //   }
-  // };
-  // useEffect(() => {
-  //   fetchAllProperty();
-  // }, []);
-
   return (
     <main>
       <Link to={"/property"}>
@@ -38,9 +23,6 @@ const Home = () => {
       </div>
       <section className="flex flex-col items-center my-10">
         <h3 className="text-red-800 text-6xl font-nosifer">hot Deals</h3>
-        <div>
-          <PropertyCard />
-        </div>
       </section>
     </main>
   );
