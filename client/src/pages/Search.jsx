@@ -83,7 +83,7 @@ export default function Search() {
     if (
       e.target.id === "all" ||
       e.target.id === "rent" ||
-      e.target.id === "sale"
+      e.target.id === "sell"
     ) {
       setSidebardata({ ...sidebardata, type: e.target.id });
     }
@@ -172,7 +172,7 @@ export default function Search() {
                 id="sale"
                 className="w-5"
                 onChange={handleChange}
-                checked={sidebardata.type === "sale"}
+                checked={sidebardata.type === "sell"}
               />
               <span>Sale</span>
             </div>

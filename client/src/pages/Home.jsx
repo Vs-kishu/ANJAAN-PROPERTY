@@ -79,6 +79,8 @@ const Home = () => {
           ))}
         </div>
       </section>
+      <hr className="h-1 bg-gray-400" />
+
       <section className="flex flex-col items-center my-10">
         <h3 className="text-red-800 text-6xl my-10 font-nosifer">
           Sell Deals{" "}
