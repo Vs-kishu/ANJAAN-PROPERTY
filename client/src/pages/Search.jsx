@@ -169,7 +169,7 @@ export default function Search() {
             <div className="flex gap-2">
               <input
                 type="checkbox"
-                id="sale"
+                id="sell"
                 className="w-5"
                 onChange={handleChange}
                 checked={sidebardata.type === "sell"}

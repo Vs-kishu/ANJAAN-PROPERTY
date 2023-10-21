@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import PropertyCard from "../components/PropertyCard";
+import { empty } from "../utils/constant";
 const Home = () => {
   const [offerProperties, setOfferProperties] = useState([]);
   const [rentProperties, setRentProperties] = useState([]);
   const [sellProperties, setSellProperties] = useState([]);
-  console.log(offerProperties);
-  console.log(rentProperties);
-  console.log(sellProperties);
+
   useEffect(() => {
     const fetchOfferProp = async () => {
       const res = await fetch("/api/property/get?offer=true&limit=4");
@@ -37,7 +36,12 @@ const Home = () => {
         </button>{" "}
       </Link>
       <h1 className="text-xl md:text-4xl font-medium text-center w-full lg:w-1/2 mx-auto my-9">
-        Your One-Stop Destination for Real Estate Deals
+        Your One-Stop Destination for Real Estate Deals{" "}
+        <Link to={"/search"}>
+          <span className="text-red-950 underline animate-ping underline-offset-4">
+            {"Let's Deals"}
+          </span>
+        </Link>
       </h1>
       <div className="w-full h-[70vh] relative">
         <img
@@ -46,7 +50,7 @@ const Home = () => {
           alt="cover"
         />
         <h2 className="absolute top-0 font-pacifico leading-loose py-20 px-10 lg:px-40 left-0 h-full bg-black w-full bg-opacity-50  text-white font-bold text-4xl lg:text-6xl">
-          Unlock the Door to Opportunity: Buy and Sell Properties Today
+          Unlock the Door to Opportunity: Buy and Sell Properties Today{" "}
         </h2>
       </div>
       <section className="flex flex-col items-center my-10">
@@ -56,12 +60,15 @@ const Home = () => {
             <Link to={"/search?offer=true"}>Show more </Link>
           </span>
         </h3>
-
-        <div className="flex flex-wrap justify-evenly gap-5">
-          {offerProperties.map((prop) => (
-            <PropertyCard key={prop._id} prop={prop} />
-          ))}
-        </div>
+        {offerProperties.length === 0 ? (
+          <img src={empty} className="w-72 h-72" />
+        ) : (
+          <div className="flex flex-wrap justify-evenly gap-5">
+            {offerProperties.map((prop) => (
+              <PropertyCard key={prop._id} prop={prop} />
+            ))}
+          </div>
+        )}
       </section>
       <hr className="h-1 bg-gray-400" />
 
@@ -72,12 +79,15 @@ const Home = () => {
             <Link to={"/search?type=rent"}>Show more </Link>
           </span>
         </h3>
-
-        <div className="flex flex-wrap justify-evenly gap-5">
-          {rentProperties.map((prop) => (
-            <PropertyCard key={prop._id} prop={prop} />
-          ))}
-        </div>
+        {rentProperties.length === 0 ? (
+          <img src={empty} className="w-72 h-72" />
+        ) : (
+          <div className="flex flex-wrap justify-evenly gap-5">
+            {rentProperties.map((prop) => (
+              <PropertyCard key={prop._id} prop={prop} />
+            ))}
+          </div>
+        )}
       </section>
       <hr className="h-1 bg-gray-400" />
 
@@ -88,12 +98,15 @@ const Home = () => {
             <Link to={"/search?type=sell"}>Show more </Link>
           </span>
         </h3>
-
-        <div className="flex flex-wrap justify-evenly gap-5">
-          {sellProperties.map((prop) => (
-            <PropertyCard key={prop._id} prop={prop} />
-          ))}
-        </div>
+        {sellProperties.length === 0 ? (
+          <img src={empty} className="w-72 h-72" />
+        ) : (
+          <div className="flex flex-wrap justify-evenly gap-5">
+            {sellProperties.map((prop) => (
+              <PropertyCard key={prop._id} prop={prop} />
+            ))}
+          </div>
+        )}
       </section>
     </main>
   );
