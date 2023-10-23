@@ -7,11 +7,5 @@
       "source": "/api/(.*)",
       "destination": "/api/index.js"
     }
-  ],
-  "redirects": [
-    {
-      "source": "/client/(.*)",
-      "destination": "/client/dist/index.html"
-    }
   ]
 }
