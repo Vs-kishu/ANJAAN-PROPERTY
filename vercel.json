@@ -10,8 +10,8 @@
   ],
   "redirects": [
     {
-      "source": "/client(.*)",
-      "destination": "/client"
+      "source": "/client/(.*)",
+      "destination": "/client/dist/index.html"
     }
   ]
 }
