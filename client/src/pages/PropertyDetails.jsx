@@ -8,6 +8,7 @@ import {
   MdOutlineLocalParking,
 } from "react-icons/md";
 import { TbDiscount2 } from "react-icons/tb";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import SwiperCore from "swiper";
@@ -18,6 +19,7 @@ import ContactOwner from "../components/ContactOwner";
 
 const PropertyDetails = () => {
   SwiperCore.use([Navigation]);
+  const { currentUser } = useSelector((store) => store.user);
   const { propID } = useParams();
   const [propDetail, setPropDetail] = useState(null);
   const [isOwner, setIsOwner] = useState(false);
@@ -57,7 +59,9 @@ const PropertyDetails = () => {
     offer,
     regularPrice,
     discountPrice,
+    userRef,
   } = propDetail;
+  console.log(userRef, currentUser._id);
   return (
     <main>
       <Swiper navigation>
@@ -120,7 +124,9 @@ const PropertyDetails = () => {
       {!isOwner && (
         <button
           onClick={() => setIsOwner(true)}
-          className=" my-5 text-2xl font-semibold py-2 bg-slate-800 hover:bg-slate-600 w-full rounded-lg text-white uppercase"
+          className={` ${
+            userRef === currentUser._id && "hidden"
+          } my-5 text-2xl font-semibold py-2 bg-slate-800 hover:bg-slate-600 w-full rounded-lg text-white uppercase`}
         >
           Contact Owner
         </button>
