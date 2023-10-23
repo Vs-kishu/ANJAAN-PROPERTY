@@ -2,7 +2,6 @@ import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
-import path from "path";
 import authRouter from "./routes/authRoute.js";
 import propertyRouter from "./routes/propertyRoute.js";
 import userRouter from "./routes/userRoute.js";
@@ -16,7 +15,6 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
-const __dirname = path.resolve();
 const app = express();
 
 app.use(express.json());
@@ -26,15 +24,12 @@ app.listen(3000, () => {
   console.log("Server is running on port 3000!");
 });
 
+app.use("/", (req, res) => {
+  res.send("hello anjaan");
+});
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/property", propertyRouter);
-
-app.use(express.static(path.join(__dirname, "/client/dist")));
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
-});
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
