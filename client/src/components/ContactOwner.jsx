@@ -1,12 +1,17 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function ContactOwner({ propDetail }) {
   const [landlord, setLandlord] = useState(null);
-  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
+
+  const [message, setMessage] = useState('');
   const onChange = (e) => {
     setMessage(e.target.value);
   };
+  const { currentUser } = useSelector((store) => store.user);
 
   useEffect(() => {
     const fetchLandlord = async () => {
@@ -18,18 +23,21 @@ export default function ContactOwner({ propDetail }) {
         console.log(error);
       }
     };
+    if (!currentUser) {
+      toast.error('UnAuthorized');
+      navigate('/signin');
+      return;
+    }
     fetchLandlord();
   }, [propDetail.userRef]);
-  if (!landlord) {
-    return <h1>Loading....</h1>;
-  }
+
   return (
     <>
       {landlord && (
         <div className="flex flex-col gap-2">
           <p>
-            Contact <span className="font-semibold">{landlord.userName}</span>{" "}
-            for{" "}
+            Contact <span className="font-semibold">{landlord.userName}</span>{' '}
+            for{' '}
             <span className="font-semibold">
               {propDetail.name.toLowerCase()}
             </span>

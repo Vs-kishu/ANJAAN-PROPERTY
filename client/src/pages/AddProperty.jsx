@@ -3,13 +3,13 @@ import {
   getStorage,
   ref,
   uploadBytesResumable,
-} from "firebase/storage";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { app } from "../../firebase";
-import { convertBlobURLsToFiles } from "../utils/helperFunction";
+} from 'firebase/storage';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { app } from '../../firebase';
+import { convertBlobURLsToFiles } from '../utils/helperFunction';
 
 const AddProperty = () => {
   const { currentUser } = useSelector((store) => store.user);
@@ -18,10 +18,10 @@ const AddProperty = () => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     imageUrls: [],
-    name: "",
-    description: "",
-    address: "",
-    type: "rent",
+    name: '',
+    description: '',
+    address: '',
+    type: 'rent',
     bedrooms: 1,
     bathrooms: 1,
     regularPrice: 50,
@@ -33,7 +33,7 @@ const AddProperty = () => {
 
   const handleImages = (e) => {
     if (e.target.files.length > 5) {
-      toast.error("select max 5 Images");
+      toast.error('select max 5 Images');
       return;
     }
 
@@ -51,7 +51,7 @@ const AddProperty = () => {
     try {
       const files = await convertBlobURLsToFiles(localblobURLs);
       if (files.length === 0) {
-        toast.error("Choose at least 1 Image");
+        toast.error('Choose at least 1 Image');
         return;
       }
 
@@ -65,7 +65,7 @@ const AddProperty = () => {
 
         const uploadPromise = new Promise((resolve, reject) => {
           uploadTask.on(
-            "state_changed",
+            'state_changed',
             (snapshot) => {
               const progress =
                 (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -99,11 +99,11 @@ const AddProperty = () => {
 
       // Now that image URLs are updated, send the data to the backend
       try {
-        console.log("uploading");
-        const res = await fetch("/api/property/addProp", {
-          method: "POST",
+        console.log('uploading');
+        const res = await fetch('/api/property/addProp', {
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             ...updatedFormData,
@@ -126,14 +126,14 @@ const AddProperty = () => {
         setLoading(false);
       }
 
-      console.log("Upload completed");
+      console.log('Upload completed');
     } catch (error) {
-      console.error("Error uploading files:", error);
+      console.error('Error uploading files:', error);
     }
   };
 
   const onChange = (e) => {
-    if (e.target.id === "sell" || e.target.id === "rent") {
+    if (e.target.id === 'sell' || e.target.id === 'rent') {
       setFormData({
         ...formData,
         type: e.target.id,
@@ -141,9 +141,9 @@ const AddProperty = () => {
     }
 
     if (
-      e.target.id === "parking" ||
-      e.target.id === "furnished" ||
-      e.target.id === "offer"
+      e.target.id === 'parking' ||
+      e.target.id === 'furnished' ||
+      e.target.id === 'offer'
     ) {
       setFormData({
         ...formData,
@@ -152,9 +152,9 @@ const AddProperty = () => {
     }
 
     if (
-      e.target.type === "number" ||
-      e.target.type === "text" ||
-      e.target.type === "textarea"
+      e.target.type === 'number' ||
+      e.target.type === 'text' ||
+      e.target.type === 'textarea'
     ) {
       setFormData({
         ...formData,
@@ -211,7 +211,7 @@ const AddProperty = () => {
                 id="sell"
                 onChange={onChange}
                 className="w-5"
-                checked={formData.type == "sell"}
+                checked={formData.type == 'sell'}
               />
               <span>Sell</span>
             </div>
@@ -221,7 +221,7 @@ const AddProperty = () => {
                 id="rent"
                 onChange={onChange}
                 className="w-5"
-                checked={formData.type == "rent"}
+                checked={formData.type == 'rent'}
               />
               <span>Rent</span>
             </div>
@@ -296,7 +296,7 @@ const AddProperty = () => {
               />
               <div className="flex flex-col items-center">
                 <p>Regular price</p>
-                {formData.type == "rent" && (
+                {formData.type == 'rent' && (
                   <span className="text-xs">($ / month)</span>
                 )}
               </div>
@@ -315,7 +315,7 @@ const AddProperty = () => {
                 />
                 <div className="flex flex-col items-center">
                   <p>Discounted price</p>
-                  {formData.type == "rent" && (
+                  {formData.type == 'rent' && (
                     <span className="text-xs">($ / month)</span>
                   )}
                 </div>
@@ -345,10 +345,10 @@ const AddProperty = () => {
             type="button"
             onClick={uploadImages}
             className={` ${
-              loading && "animate-pulse"
+              loading && 'animate-pulse'
             } p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80`}
           >
-            {loading ? "Adding..." : "ADD PROPERTY"}
+            {loading ? 'Adding...' : 'ADD PROPERTY'}
           </button>
           <div className="space-y-4">
             {localblobURLs?.map((url, index) => (
